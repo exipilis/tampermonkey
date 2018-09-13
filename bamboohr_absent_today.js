@@ -17,7 +17,9 @@ $(document).ready(function () {
             // get json
             people_json.json().then(list => {
                 // make fetches of individual pages for each person and ask for page html
-                let promises = list.map(person => fetch(person.employeeProfileUrl).then(r => r.text()));
+                let promises = list
+                    .filter(person => person.employeeProfileUrl)
+                    .map(person => fetch(person.employeeProfileUrl).then(r => r.text()));
                 // collect all responses
                 Promise.all(promises)
                     .then(texts => texts.map(text => {
